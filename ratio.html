@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>國中數學：從「比」到「連比」概念探索與生活互動學習網</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- KaTeX for Math Equations -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                        },
+                        grade7: {
+                            light: '#fef3c7',
+                            border: '#f59e0b',
+                            text: '#b45309',
+                            bg: '#fffbeb'
+                        },
+                        grade9: {
+                            light: '#e0e7ff',
+                            border: '#6366f1',
+                            text: '#4338ca',
+                            bg: '#eef2ff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f8fafc;
+        }
+        .tab-btn.active {
+            border-bottom: 3px solid #0284c7;
+            color: #0284c7;
+            font-weight: 700;
+        }
+        .liquid-bar {
+            transition: height 0.5s ease-in-out, width 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-sky-700 via-indigo-700 to-purple-800 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-white/10 p-2 rounded-lg backdrop-blur-sm">
+                        <i class="fa-solid fa-calculator text-2xl text-yellow-300"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-black text-lg sm:text-xl tracking-tight">國中數學觀念庫</h1>
+                        <p class="text-xs text-sky-200 hidden sm:block">比與比例式 (七年級) vs 連比與連比例式 (九年級)</p>
+                    </div>
+                </div>
+                <nav class="flex space-x-1 sm:space-x-4 text-sm font-medium">
+                    <button onclick="switchTab('concept')" id="nav-concept" class="tab-btn active px-3 py-2 rounded-t-lg transition">概念對比</button>
+                    <button onclick="switchTab('scenarios')" id="nav-scenarios" class="tab-btn px-3 py-2 rounded-t-lg transition">生活實例</button>
+                    <button onclick="switchTab('lab')" id="nav-lab" class="tab-btn px-3 py-2 rounded-t-lg transition">互動實驗室</button>
+                    <button onclick="switchTab('quiz')" id="nav-quiz" class="tab-btn px-3 py-2 rounded-t-lg transition">線上小測驗</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- SECTION 1: CONCEPT COMPARISON -->
+        <section id="sec-concept" class="space-y-8">
+            <!-- Hero Banner inside Section -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+                <div class="max-w-3xl">
+                    <span class="inline-block px-3 py-1 bg-sky-100 text-sky-800 text-xs font-bold rounded-full mb-3">學習地圖與銜接</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">從「兩數量」到「多數量」的推廣關係</h2>
+                    <p class="mt-3 text-slate-600 leading-relaxed">
+                        在七年級，我們學習了兩個數量的相對關係（比與比例式）；到了九年級，我們將這個概念擴展至三個或三個以上的數量（連比與連比例式）。理解兩者的相似與關鍵差異，是掌握國中幾何相似形與物理變量的基礎！
+                    </p>
+                </div>
+            </div>
+
+            <!-- Comparison Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 7th Grade Card -->
+                <div class="bg-white rounded-2xl shadow-md border-2 border-amber-300 overflow-hidden flex flex-col">
+                    <div class="bg-gradient-to-r from-amber-500 to-amber-600 text-white p-4 font-bold text-lg flex items-center justify-between">
+                        <span><i class="fa-solid fa-graduation-cap mr-2"></i>七年級：比與比例式</span>
+                        <span class="text-xs bg-amber-700/50 px-2 py-1 rounded">雙變數 $a : b$</span>
+                    </div>
+                    <div class="p-6 space-y-4 text-sm flex-grow">
+                        <div class="bg-amber-50 p-4 rounded-xl border border-amber-200">
+                            <h4 class="font-bold text-amber-900 mb-1">1. 定義與表示法</h4>
+                            <p class="text-slate-700">比較兩個數量 $a$ 與 $b$ ($b \neq 0$)，記作 <span class="font-bold text-amber-800">$a : b$</span>。</p>
+                            <p class="mt-1 text-slate-600">比值為 $\frac{a}{b}$ （前項 $\div$ 後項）。</p>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-slate-800">2. 核心等式性質</h4>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>交叉相乘：</strong> 若 $a : b = c : d$，則 <span class="font-bold text-indigo-600">$ad = bc$</span> （外項積 = 內項積）。</li>
+                                <li><strong>同乘同除：</strong> $a : b = (a \cdot k) : (b \cdot k)$ ($k \neq 0$)。</li>
+                            </ul>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-slate-800">3. 參數設法 (最常用技巧)</h4>
+                            <p class="text-slate-600">若已知 $a : b = 3 : 5$，可設定：</p>
+                            <div class="bg-slate-100 p-2.5 rounded text-center font-mono text-slate-800">$a = 3r, \quad b = 5r \quad (r \neq 0)$</div>
+                        </div>
+
+                        <div class="p-3 bg-emerald-50 rounded-lg border border-emerald-200 text-xs text-emerald-800">
+                            <i class="fa-solid fa-circle-check mr-1"></i> <strong>特點：</strong> 有單一確切的「比值」，計算直觀，可用分數直接表示。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9th Grade Card -->
+                <div class="bg-white rounded-2xl shadow-md border-2 border-indigo-300 overflow-hidden flex flex-col">
+                    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 font-bold text-lg flex items-center justify-between">
+                        <span><i class="fa-solid fa-graduation-cap mr-2"></i>九年級：連比與連比例式</span>
+                        <span class="text-xs bg-indigo-800/50 px-2 py-1 rounded">多變數 $a : b : c$</span>
+                    </div>
+                    <div class="p-6 space-y-4 text-sm flex-grow">
+                        <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-200">
+                            <h4 class="font-bold text-indigo-900 mb-1">1. 定義與表示法</h4>
+                            <p class="text-slate-700">同時比較三個或三個以上的數，記作 <span class="font-bold text-indigo-800">$a : b : c$</span>。</p>
+                            <p class="mt-1 text-red-600 font-semibold"><i class="fa-solid fa-triangle-exclamation mr-1"></i> 注意：沒有所謂「連比值」（不能寫成 $\frac{a}{b}{c}$ 這種形式）。</p>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-slate-800">2. 核心等式性質</h4>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>分拆比例：</strong> 若 $a : b : c = x : y : z$，代表 $a:b=x:y$ 且 $b:c=y:z$ 且 $a:c=x:z$。</li>
+                                <li><strong>等比等式：</strong> $\frac{a}{x} = \frac{b}{y} = \frac{c}{z} = r$ ($x,y,z \neq 0$)。</li>
+                            </ul>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-slate-800">3. 參數設法 (通用金鑰)</h4>
+                            <p class="text-slate-600">若已知 $a : b : c = 2 : 3 : 7$，可設定：</p>
+                            <div class="bg-slate-100 p-2.5 rounded text-center font-mono text-slate-800">$a = 2r, \quad b = 3r, \quad c = 7r \quad (r \neq 0)$</div>
+                        </div>
+
+                        <div class="p-3 bg-red-50 rounded-lg border border-red-200 text-xs text-red-800">
+                            <i class="fa-solid fa-circle-xmark mr-1"></i> <strong>致命誤區：</strong> 絕不能跨三項直接交叉相乘（如：$a \cdot b \cdot c \neq x \cdot y \cdot z$ 或 $ax = by = cz$ 皆為錯誤！）。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deep Comparison Table -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-5 bg-slate-50 border-b border-slate-200 font-bold text-lg text-slate-800 flex items-center">
+                    <i class="fa-solid fa-list-check text-sky-600 mr-2"></i> 核心觀念對照總整理
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-700">
+                        <thead class="bg-slate-100 text-slate-900 uppercase font-bold text-xs border-b border-slate-200">
+                            <tr>
+                                <th class="p-4">比較項目</th>
+                                <th class="p-4 bg-amber-50/60 text-amber-900">七年級：比與比例式</th>
+                                <th class="p-4 bg-indigo-50/60 text-indigo-900">九年級：連比與連比例式</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr>
+                                <td class="p-4 font-bold bg-slate-50">符號表示</td>
+                                <td class="p-4">$a : b$</td>
+                                <td class="p-4">$a : b : c$</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold bg-slate-50">比值概念</td>
+                                <td class="p-4 text-emerald-700 font-semibold">有，比值為 $\frac{a}{b}$ (一個數值)</td>
+                                <td class="p-4 text-red-600 font-semibold">無「連比值」，只有兩兩相除的比值</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold bg-slate-50">等式轉化</td>
+                                <td class="p-4">若 $a:b = c:d \implies ad = bc$</td>
+                                <td class="p-4">若 $a:b:c = x:y:z \implies \frac{a}{x} = \frac{b}{y} = \frac{c}{z}$</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold bg-slate-50">求解基本工具</td>
+                                <td class="p-4">外項積 = 內項積、通分比值</td>
+                                <td class="p-4">求中間介質最小公倍數 (求連比)、設比例參數 $r$</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold bg-slate-50">幾何對應應用</td>
+                                <td class="p-4">地圖比例尺、線段長度倍數比</td>
+                                <td class="p-4">相似三角形三邊長對應比、三維體積比與面積比</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: REAL LIFE SCENARIOS -->
+        <section id="sec-scenarios" class="hidden space-y-8">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">生活中的實例比較：從調飲到合夥創業</h2>
+                <p class="text-slate-600">許多生活情境都會用到比的概念，讓我們看看從「2個元素」增加到「3個元素」時，數學模型是如何演進的！</p>
+            </div>
+
+            <!-- Case Studies Card Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Case 1: Milk Tea -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-xl flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-mug-hot"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">情境一：飲料店配方</h3>
+                        
+                        <div class="mt-4 space-y-3 text-sm">
+                            <div class="p-3 bg-amber-50 rounded-lg border border-amber-200">
+                                <span class="font-bold text-amber-900 block border-b border-amber-200 pb-1 mb-1">七年級 (兩項比)</span>
+                                經典鮮奶茶：<br><strong>紅茶 : 鮮奶 = $3 : 2$</strong><br>
+                                代表每 3 份紅茶就要搭配 2 份鮮奶。紅茶佔總量的 $\frac{3}{5}$。
+                            </div>
+                            <div class="p-3 bg-indigo-50 rounded-lg border border-indigo-200">
+                                <span class="font-bold text-indigo-900 block border-b border-indigo-200 pb-1 mb-1">九年級 (連比)</span>
+                                招牌珍珠鮮奶茶：<br><strong>紅茶 : 鮮奶 : 珍珠 = $5 : 3 : 2$</strong><br>
+                                總共分為 $5+3+2=10$ 份。若要調配 700ml 飲料，珍珠需 $700 \times \frac{2}{10} = 140$ml。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 2: Expense Sharing -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">情境二：獎金與出資分配</h3>
+                        
+                        <div class="mt-4 space-y-3 text-sm">
+                            <div class="p-3 bg-amber-50 rounded-lg border border-amber-200">
+                                <span class="font-bold text-amber-900 block border-b border-amber-200 pb-1 mb-1">七年級 (兩項比)</span>
+                                小明與小華合資買彩券：<br>出資額 <strong>小明 : 小華 = $100 : 200 = 1 : 2$</strong>。<br>
+                                中獎 900 元時，小華應拿小明的 2 倍（600 元）。
+                            </div>
+                            <div class="p-3 bg-indigo-50 rounded-lg border border-indigo-200">
+                                <span class="font-bold text-indigo-900 block border-b border-indigo-200 pb-1 mb-1">九年級 (連比)</span>
+                                三人合夥創業出資比：<br><strong>小明 : 小華 : 小美 = $2 : 3 : 5$</strong>。<br>
+                                若年度盈餘 100 萬，小美可分得 $100 \times \frac{5}{2+3+5} = 50$ 萬。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 3: Models and Shapes -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="w-12 h-12 bg-sky-100 text-sky-700 rounded-xl flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-shapes"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">情境三：圖形與建築模型</h3>
+                        
+                        <div class="mt-4 space-y-3 text-sm">
+                            <div class="p-3 bg-amber-50 rounded-lg border border-amber-200">
+                                <span class="font-bold text-amber-900 block border-b border-amber-200 pb-1 mb-1">七年級 (兩項比)</span>
+                                長方形的長寬比：<br><strong>長 : 寬 = $4 : 3$</strong>。<br>
+                                知道比例尺 1 : 1000 時，可由地圖長度推算實際長度。
+                            </div>
+                            <div class="p-3 bg-indigo-50 rounded-lg border border-indigo-200">
+                                <span class="font-bold text-indigo-900 block border-b border-indigo-200 pb-1 mb-1">九年級 (連比)</span>
+                                三角形的三邊長連比：<br><strong>$a : b : c = 3 : 4 : 5$</strong> (直角三角形)。<br>
+                                結合相似形，放大後的三邊長依然保持 $3:4:5$ 的連比例！
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bridge Topic: How to combining 2 Ratios into a Continued Ratio -->
+            <div class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-2xl p-6 sm:p-8 shadow-md">
+                <div class="max-w-3xl">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-400 bg-indigo-900/60 px-3 py-1 rounded-full">九年級關鍵技能</span>
+                    <h3 class="text-xl sm:text-2xl font-bold mt-2 text-yellow-300">如何將兩個「雙項比」合併為一個「連比」？（尋找橋樑數）</h3>
+                    <p class="mt-2 text-slate-300 text-sm leading-relaxed">
+                        假設已知「紅茶 : 鮮奶 = $2 : 3$」，且「鮮奶 : 糖漿 = $4 : 1$」，如何求出「紅茶 : 鮮奶 : 糖漿」？
+                    </p>
+                    
+                    <div class="mt-6 bg-white/10 p-4 rounded-xl border border-white/10 text-sm space-y-3 backdrop-blur-sm">
+                        <div class="flex items-center space-x-2">
+                            <span class="font-bold text-sky-300">Step 1：</span>
+                            <span>找出共同項（橋樑）：<strong>鮮奶</strong>（分別佔 3 份與 4 份）。</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="font-bold text-sky-300">Step 2：</span>
+                            <span>求公倍數：$\text{LCM}(3, 4) = 12$。</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="font-bold text-sky-300">Step 3：</span>
+                            <span>同放大擴分：
+                                紅茶:鮮奶 $= 2:3 = 8:12$； 鮮奶:糖漿 $= 4:1 = 12:3$。
+                            </span>
+                        </div>
+                        <div class="p-2 bg-emerald-500/20 rounded border border-emerald-400/40 font-bold text-emerald-300 text-center">
+                            最終結果：紅茶 : 鮮奶 : 糖漿 = $8 : 12 : 3$
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: INTERACTIVE LAB -->
+        <section id="sec-lab" class="hidden space-y-8">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                <h2 class="text-2xl font-bold text-slate-900">調飲特調實驗室 (配方動態模擬)</h2>
+                <p class="text-slate-600 mt-1">選擇模式並滑動調整比例，觀察成分毫升數與比例參數 $r$ 的變化！</p>
+            </div>
+
+            <!-- Lab Controls & Display Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Controls Panel -->
+                <div class="lg:col-span-5 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">1. 選擇數學模式</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="setLabMode('2-term')" id="btn-mode-2" class="py-2.5 px-4 rounded-xl border-2 font-bold text-sm border-amber-500 bg-amber-50 text-amber-800 transition">
+                                7年級：雙項比 (2項)
+                            </button>
+                            <button onclick="setLabMode('3-term')" id="btn-mode-3" class="py-2.5 px-4 rounded-xl border-2 font-bold text-sm border-slate-200 text-slate-600 transition">
+                                9年級：連比 (3項)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Total Target Volume -->
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-sm font-bold text-slate-700">目標總容量 (ml)</label>
+                            <span id="lab-total-val" class="text-lg font-extrabold text-sky-600">600 ml</span>
+                        </div>
+                        <input type="range" id="slider-total" min="100" max="1000" step="50" value="600" oninput="updateLab()" class="w-full accent-sky-600 cursor-pointer">
+                    </div>
+
+                    <hr class="border-slate-200">
+
+                    <!-- Ingredient Ratio Sliders -->
+                    <div class="space-y-4">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">2. 調整配方比例</label>
+
+                        <!-- Ratio Item A -->
+                        <div>
+                            <div class="flex justify-between text-sm font-semibold text-slate-700 mb-1">
+                                <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-amber-800 inline-block mr-2"></span>濃縮紅茶 (A)</span>
+                                <span id="lab-ratio-a-val" class="font-mono font-bold">3</span>
+                            </div>
+                            <input type="range" id="slider-a" min="1" max="10" value="3" oninput="updateLab()" class="w-full accent-amber-800 cursor-pointer">
+                        </div>
+
+                        <!-- Ratio Item B -->
+                        <div>
+                            <div class="flex justify-between text-sm font-semibold text-slate-700 mb-1">
+                                <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-blue-300 inline-block mr-2"></span>優質鮮奶 (B)</span>
+                                <span id="lab-ratio-b-val" class="font-mono font-bold">2</span>
+                            </div>
+                            <input type="range" id="slider-b" min="1" max="10" value="2" oninput="updateLab()" class="w-full accent-blue-400 cursor-pointer">
+                        </div>
+
+                        <!-- Ratio Item C (Only for 3-term) -->
+                        <div id="container-ratio-c" class="hidden">
+                            <div class="flex justify-between text-sm font-semibold text-slate-700 mb-1">
+                                <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-slate-900 inline-block mr-2"></span>黑糖珍珠 (C)</span>
+                                <span id="lab-ratio-c-val" class="font-mono font-bold">1</span>
+                            </div>
+                            <input type="range" id="slider-c" min="1" max="10" value="1" oninput="updateLab()" class="w-full accent-slate-800 cursor-pointer">
+                        </div>
+                    </div>
+
+                    <!-- Parameter r Box -->
+                    <div class="p-4 bg-slate-900 text-white rounded-xl space-y-1 text-xs">
+                        <div class="text-slate-400 font-bold uppercase">比例參數分析 ($r$)</div>
+                        <div class="text-base font-mono">
+                            總份數 = <span id="lab-sum-parts" class="text-yellow-400 font-bold">5</span> 份
+                        </div>
+                        <div class="text-base font-mono">
+                            每 1 份 ($r$) = <span id="lab-r-val" class="text-emerald-400 font-bold">120</span> ml
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Graphic Visualizer Cup Panel -->
+                <div class="lg:col-span-7 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center min-h-[420px]">
+                    
+                    <!-- Glass Cup Container -->
+                    <div class="relative w-48 h-80 border-4 border-slate-300 border-t-0 rounded-b-3xl bg-slate-50/50 p-1 flex flex-col justify-end overflow-hidden shadow-inner">
+                        
+                        <!-- Ingredient C Bar (Top or Bottom) -->
+                        <div id="bar-c" class="w-full bg-slate-900 transition-all duration-300 flex items-center justify-center text-white text-xs font-bold overflow-hidden" style="height: 0%;">
+                            <span id="bar-c-text" class="px-1 truncate"></span>
+                        </div>
+
+                        <!-- Ingredient B Bar -->
+                        <div id="bar-b" class="w-full bg-sky-200 transition-all duration-300 flex items-center justify-center text-sky-900 text-xs font-bold overflow-hidden" style="height: 40%;">
+                            <span id="bar-b-text" class="px-1 truncate">240 ml</span>
+                        </div>
+
+                        <!-- Ingredient A Bar -->
+                        <div id="bar-a" class="w-full bg-amber-800 transition-all duration-300 flex items-center justify-center text-amber-100 text-xs font-bold overflow-hidden" style="height: 60%;">
+                            <span id="bar-a-text" class="px-1 truncate">360 ml</span>
+                        </div>
+
+                    </div>
+
+                    <!-- Formula Result Display -->
+                    <div class="mt-6 text-center space-y-2">
+                        <div id="lab-equation-display" class="text-lg font-extrabold text-slate-800 font-mono">
+                            紅茶 : 鮮奶 = 3 : 2
+                        </div>
+                        <div id="lab-ml-breakdown" class="text-sm text-slate-600">
+                            紅茶 360ml | 鮮奶 240ml
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 4: INTERACTIVE QUIZ -->
+        <section id="sec-quiz" class="hidden space-y-8">
+            <!-- Quiz Header -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">觀念理解線上實力測驗</h2>
+                    <p class="text-slate-600 text-sm mt-1">涵蓋 7 年級比與比例式、9 年級連比例式與常見易錯陷阱。</p>
+                </div>
+                <div class="flex items-center space-x-3 bg-slate-100 px-4 py-2 rounded-xl">
+                    <i class="fa-solid fa-trophy text-amber-500 text-xl"></i>
+                    <div>
+                        <div class="text-xs text-slate-500 font-bold">目前得分</div>
+                        <div id="quiz-score-display" class="text-lg font-black text-slate-800">0 / 5</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Questions Container -->
+            <div id="quiz-container" class="space-y-6">
+                <!-- Dynamic Questions will be injected by JS -->
+            </div>
+
+            <!-- Quiz Action Buttons -->
+            <div class="flex justify-end space-x-4">
+                <button onclick="resetQuiz()" class="px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl transition">
+                    <i class="fa-solid fa-rotate-right mr-2"></i>重新測驗
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 mt-auto text-center text-xs">
+        <div class="max-w-7xl mx-auto px-4">
+            國中數學核心概念互動教材 — 專為七至九年級學生設計
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let currentTab = 'concept';
+        let labMode = '2-term'; // '2-term' or '3-term'
+
+        // Quiz Questions Data
+        const quizQuestions = [
+            {
+                id: 1,
+                grade: '7年級觀念',
+                question: '若已知 $a : b = 4 : 7$，且 $a = 20$，則 $b$ 的值是多少？',
+                options: [
+                    '28',
+                    '35',
+                    '14',
+                    '40'
+                ],
+                correct: 1, // Index 1 -> 35
+                explanation: '利用七年級比例式內項積等於外項積：$4 : 7 = 20 : b \implies 4b = 7 \times 20 = 140 \implies b = 35$。或者看倍數：$a$ 從 4 變成 20 放大 5 倍，故 $b$ 也要放大 5 倍 ($7 \times 5 = 35$)。'
+            },
+            {
+                id: 2,
+                grade: '9年級觀念',
+                question: '若 $x : y = 2 : 3$，且 $y : z = 4 : 5$，求連比 $x : y : z = ?$ ',
+                options: [
+                    '2 : 3 : 5',
+                    '8 : 12 : 15',
+                    '6 : 12 : 10',
+                    '8 : 12 : 10'
+                ],
+                correct: 1, // Index 1 -> 8:12:15
+                explanation: '尋找共同項 $y$ 的公倍數：$\text{LCM}(3, 4) = 12$。<br>$x:y = 2:3 = 8:12$<br>$y:z = 4:5 = 12:15$<br>合併為 $x : y : z = 8 : 12 : 15$。'
+            },
+            {
+                id: 3,
+                grade: '易錯觀念診斷',
+                question: '關於連比例式 $a : b : c = 3 : 4 : 5$，下列哪一個敘述是【錯誤】的？',
+                options: [
+                    '可以設定 $a=3r, b=4r, c=5r \quad (r \neq 0)$',
+                    '$\frac{a}{3} = \frac{b}{4} = \frac{c}{5}$',
+                    '$a : b = 3 : 4$ 且 $b : c = 4 : 5$',
+                    '直接交叉相乘得到 $3a = 4b = 5c$'
+                ],
+                correct: 3, // Index 3 is FALSE
+                explanation: '❌ **選項 D 是常見錯誤！** 連比例式不能直接寫成 $3a = 4b = 5c$。正確拆解為兩兩比例式：$4a = 3b$ 與 $5b = 4c$。'
+            },
+            {
+                id: 4,
+                grade: '生活應用題',
+                question: '小明、小華與小美三人合資購買禮物，出資金額比為 $a : b : c = 2 : 3 : 4$。若禮物總價為 1800 元，小美需要支付多少元？',
+                options: [
+                    '400 元',
+                    '600 元',
+                    '800 元',
+                    '900 元'
+                ],
+                correct: 2, // Index 2 -> 800
+                explanation: '總份數為 $2 + 3 + 4 = 9$ 份。<br>每 1 份參數 $r = 1800 \div 9 = 200$ 元。<br>小美佔 4 份，故支付 $4 \times 200 = 800$ 元。'
+            },
+            {
+                id: 5,
+                grade: '9年級幾何應用',
+                question: '一個三角形的三邊長連比為 $a : b : c = 5 : 12 : 13$。若其周長為 60 公分，則最長邊為多少公分？',
+                options: [
+                    '26 公分',
+                    '24 公分',
+                    '10 公分',
+                    '30 公分'
+                ],
+                correct: 0, // Index 0 -> 26
+                explanation: '設三邊長分別為 $5r, 12r, 13r$。<br>周長 $= 5r + 12r + 13r = 30r = 60 \implies r = 2$。<br>最長邊為 $13r = 13 \times 2 = 26$ 公分。（此三角形亦為直角三角形！）'
+            }
+        ];
+
+        let userAnswers = {};
+
+        // Tab Switcher function
+        function switchTab(tab) {
+            currentTab = tab;
+            ['concept', 'scenarios', 'lab', 'quiz'].forEach(t => {
+                const sec = document.getElementById(`sec-${t}`);
+                const nav = document.getElementById(`nav-${t}`);
+                if (t === tab) {
+                    sec.classList.remove('hidden');
+                    nav.classList.add('active');
+                } else {
+                    sec.classList.add('hidden');
+                    nav.classList.remove('active');
+                }
+            });
+            
+            // Trigger KaTeX render for latex math dynamically
+            setTimeout(() => {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }, 50);
+        }
+
+        function setLabMode(mode) {
+            labMode = mode;
+            const btn2 = document.getElementById('btn-mode-2');
+            const btn3 = document.getElementById('btn-mode-3');
+            const containerC = document.getElementById('container-ratio-c');
+
+            if (mode === '2-term') {
+                btn2.className = 'py-2.5 px-4 rounded-xl border-2 font-bold text-sm border-amber-500 bg-amber-50 text-amber-800 transition';
+                btn3.className = 'py-2.5 px-4 rounded-xl border-2 font-bold text-sm border-slate-200 text-slate-600 transition';
+                containerC.classList.add('hidden');
+            } else {
+                btn3.className = 'py-2.5 px-4 rounded-xl border-2 font-bold text-sm border-indigo-600 bg-indigo-50 text-indigo-900 transition';
+                btn2.className = 'py-2.5 px-4 rounded-xl border-2 font-bold text-sm border-slate-200 text-slate-600 transition';
+                containerC.classList.remove('hidden');
+            }
+            updateLab();
+        }
+
+        function updateLab() {
+            const totalVol = parseInt(document.getElementById('slider-total').value);
+            const ratioA = parseInt(document.getElementById('slider-a').value);
+            const ratioB = parseInt(document.getElementById('slider-b').value);
+            const ratioC = labMode === '3-term' ? parseInt(document.getElementById('slider-c').value) : 0;
+
+            // Display sliders value
+            document.getElementById('lab-total-val').innerText = `${totalVol} ml`;
+            document.getElementById('lab-ratio-a-val').innerText = ratioA;
+            document.getElementById('lab-ratio-b-val').innerText = ratioB;
+            document.getElementById('lab-ratio-c-val').innerText = ratioC;
+
+            const sumParts = ratioA + ratioB + ratioC;
+            const rVal = (totalVol / sumParts).toFixed(1);
+
+            document.getElementById('lab-sum-parts').innerText = sumParts;
+            document.getElementById('lab-r-val').innerText = rVal;
+
+            // Calculate amounts
+            const mlA = Math.round((ratioA / sumParts) * totalVol);
+            const mlB = Math.round((ratioB / sumParts) * totalVol);
+            const mlC = labMode === '3-term' ? totalVol - mlA - mlB : 0;
+
+            // Calculate height percentages
+            const pctA = (mlA / totalVol) * 100;
+            const pctB = (mlB / totalVol) * 100;
+            const pctC = labMode === '3-term' ? (mlC / totalVol) * 100 : 0;
+
+            // Update liquid visual height
+            const barA = document.getElementById('bar-a');
+            const barB = document.getElementById('bar-b');
+            const barC = document.getElementById('bar-c');
+
+            barA.style.height = `${pctA}%`;
+            barB.style.height = `${pctB}%`;
+            barC.style.height = `${pctC}%`;
+
+            document.getElementById('bar-a-text').innerText = `${mlA} ml`;
+            document.getElementById('bar-b-text').innerText = `${mlB} ml`;
+            document.getElementById('bar-c-text').innerText = labMode === '3-term' ? `${mlC} ml` : '';
+
+            // Update formula textual output
+            const eqDisplay = document.getElementById('lab-equation-display');
+            const mlBreakdown = document.getElementById('lab-ml-breakdown');
+
+            if (labMode === '2-term') {
+                eqDisplay.innerText = `紅茶 : 鮮奶 = ${ratioA} : ${ratioB}`;
+                mlBreakdown.innerText = `紅茶 ${mlA}ml | 鮮奶 ${mlB}ml`;
+            } else {
+                eqDisplay.innerText = `紅茶 : 鮮奶 : 珍珠 = ${ratioA} : ${ratioB} : ${ratioC}`;
+                mlBreakdown.innerText = `紅茶 ${mlA}ml | 鮮奶 ${mlB}ml | 珍珠 ${mlC}ml`;
+            }
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            quizQuestions.forEach((q, qIndex) => {
+                const qCard = document.createElement('div');
+                qCard.className = 'bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4';
+
+                let optionsHTML = '';
+                q.options.forEach((opt, optIndex) => {
+                    const isSelected = userAnswers[q.id] === optIndex;
+                    optionsHTML += `
+                        <button onclick="selectOption(${q.id}, ${optIndex})" 
+                            class="w-full text-left p-3.5 rounded-xl border text-sm font-medium transition flex items-center justify-between
+                            ${isSelected ? 'border-sky-600 bg-sky-50 text-sky-900 font-bold' : 'border-slate-200 hover:bg-slate-50 text-slate-700'}">
+                            <span>${String.fromCharCode(65 + optIndex)}. ${opt}</span>
+                            ${isSelected ? '<i class="fa-solid fa-circle-check text-sky-600"></i>' : '<i class="fa-regular fa-circle text-slate-300"></i>'}
+                        </button>
+                    `;
+                });
+
+                const isAnswered = userAnswers[q.id] !== undefined;
+                let feedbackHTML = '';
+                if (isAnswered) {
+                    const isCorrect = userAnswers[q.id] === q.correct;
+                    feedbackHTML = `
+                        <div class="mt-4 p-4 rounded-xl text-sm ${isCorrect ? 'bg-emerald-50 border border-emerald-200 text-emerald-900' : 'bg-red-50 border border-red-200 text-red-900'}">
+                            <div class="font-bold flex items-center mb-1">
+                                ${isCorrect ? '<i class="fa-solid fa-circle-check text-emerald-600 mr-2 text-lg"></i>回答正確！' : '<i class="fa-solid fa-circle-xmark text-red-600 mr-2 text-lg"></i>回答錯誤'}
+                            </div>
+                            <div class="mt-2 text-xs leading-relaxed text-slate-700 bg-white/60 p-2.5 rounded">
+                                <strong>【解析】</strong> ${q.explanation}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                qCard.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md ${q.grade.includes('7') ? 'bg-amber-100 text-amber-800' : 'bg-indigo-100 text-indigo-800'}">
+                            ${q.grade}
+                        </span>
+                        <span class="text-xs font-bold text-slate-400">第 ${qIndex + 1} / ${quizQuestions.length} 題</span>
+                    </div>
+                    <h3 class="font-bold text-base text-slate-800">${q.question}</h3>
+                    <div class="space-y-2 pt-2">
+                        ${optionsHTML}
+                    </div>
+                    ${feedbackHTML}
+                `;
+
+                container.appendChild(qCard);
+            });
+
+            updateScore();
+            
+            // Re-render KaTeX math formula
+            setTimeout(() => {
+                renderMathInElement(container, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }, 50);
+        }
+
+        function selectOption(qId, optIndex) {
+            userAnswers[qId] = optIndex;
+            renderQuiz();
+
+            // Check if all correct to trigger celebratory confetti
+            let score = 0;
+            quizQuestions.forEach(q => {
+                if (userAnswers[q.id] === q.correct) score++;
+            });
+            if (score === quizQuestions.length) {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
+        function updateScore() {
+            let score = 0;
+            quizQuestions.forEach(q => {
+                if (userAnswers[q.id] === q.correct) score++;
+            });
+            document.getElementById('quiz-score-display').innerText = `${score} / ${quizQuestions.length}`;
+        }
+
+        function resetQuiz() {
+            userAnswers = {};
+            renderQuiz();
+        }
+
+        window.onload = function() {
+            updateLab();
+            renderQuiz();
+            
+            // Initial Math rendering
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError: false
+            });
+        };
+    </script>
+</body>
+</html>
